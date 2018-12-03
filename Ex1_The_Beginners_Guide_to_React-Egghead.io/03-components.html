@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>React Basics</title>
+        <style>
+            .main{
+                border: 1px solid;
+            }
+
+            .container{
+                color: blue;
+                font-size: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <h2>React Basics</h2>
+            <p>React uses JSX. JSX is a syntax extension to JavaScript. JSX produces React “elements”.</p>
+            <p>In html we use class attr and in jsx we use className.</p>
+        </div>
+        <hr>
+        <div>
+            <h2>Creating component in React</h2>
+            <h3>Function component</h3>
+        </div>
+        <div class="main">
+            <div id="root"></div>
+        </div>
+        <script src="https://unpkg.com/react@16.0.0/umd/react.production.min.js"></script>
+        <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.production.min.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+        <script type="text/babel">
+            /* calling method inside React.createElement */
+            /*
+            const rootEle = document.getElementById('root');
+            const message = (props) => <div>{props.msg}</div>;
+            //const element = <div className={cssClass}>{textContent1}</div>;
+            const element = (
+                <div className="container">
+                    {React.createElement(message, {msg:'Hello World'}}
+                    {React.createElement(message, {msg:'Goodbye World'}}
+                </div>
+            );
+            ReactDOM.render(element,rootEle);
+            */
+
+            /* Creating component as Message */
+
+            const rootEle = document.getElementById('root');
+            const Message = (props) => <div>{props.msg}</div>;
+            //const element = <div className={cssClass}>{textContent1}</div>;
+            const element = (
+                <div className="container">
+                    <Message msg="Hello World"/>
+                    <Message msg="Good Bye World"/>
+                </div>
+            );
+            ReactDOM.render(element, rootEle);
+
+        </script>
+    </body>
+</html>

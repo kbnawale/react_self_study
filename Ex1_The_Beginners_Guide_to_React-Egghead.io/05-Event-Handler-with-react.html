@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>React Basics</title>
+        <style>
+            .main{
+                border: 1px solid;
+            }
+
+            .container{
+                color: blue;
+                font-size: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <h2>React Basics</h2>
+            <p>React uses JSX. JSX is a syntax extension to JavaScript. JSX produces React “elements”.</p>
+            <p>In html we use class attr and in jsx we use className.</p>
+        </div>
+        <hr>
+        <div>
+            <h2>Event handler with React</h2>
+        </div>
+        <div class="main">
+            <div id="root"></div>
+        </div>
+        <script src="https://unpkg.com/react@16.0.0/umd/react.production.min.js"></script>
+        <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.production.min.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+        <script type="text/babel">
+            /* Creating component as App */
+            const state = {eventCount: 0, username: ''};
+
+            function App(){
+                return (
+                    <div>
+                        <p>There have been {state.eventCount} events</p>
+                        <p> <button onClick={onBtnClick} onMouseOver={onBtnOver} onMouseOut={onBtnOut} >CLICK HERE..</button></p>
+                        <p>You typed: {state.username} </p>
+                        <p> <input onChange={onInputChange} /></p>
+                    </div>
+                );
+            }
+
+            function onInputChange(event){
+                setState({username: event.target.value});
+            }
+
+            function onBtnClick(event){
+                console.log("event: ",event.nativeEvent);
+                setState({eventCount: state.eventCount+1});
+            }
+
+            function onBtnOver(event){
+                event.currentTarget.style.backgroundColor = 'lightBlue';
+            }
+
+            function onBtnOut(event){
+                event.currentTarget.style.backgroundColor = '';
+            }
+
+            function setState(newState){
+                Object.assign(state, newState);
+                renderApp();
+            }
+            
+            function renderApp(){
+                const rootEle = document.getElementById('root');
+                ReactDOM.render(<App />,rootEle);
+            }
+            renderApp();
+        </script>
+    </body>
+</html>

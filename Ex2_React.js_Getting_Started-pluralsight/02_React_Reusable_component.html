@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React Basics</title>
+    <style>
+        .main{
+                border: 1px solid;
+            }
+
+            .container{
+                color: blue;
+                font-size: 20px;
+            }
+        </style>
+</head>
+
+<body>
+    <div>
+        <h2>React Basics</h2>
+        <p> React uses JSX. JSX is a syntax extension to JavaScript. JSX produces React “elements”.</p>
+        <p> Writing your first react component </p>
+    </div>
+    <hr>
+    <div>
+        <h2>Component state with React</h2>
+    </div>
+    <hr>
+    <div class="main">
+        <div id="root"></div>
+    </div>
+
+    <script src="https://unpkg.com/react@16.0.0/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+
+
+    <script type="text/babel">
+            /* Creating class component as Button */
+            class Button extends React.Component {
+                //moved state object to parent component which is App in this case
+                
+                // handleClick = ()=>{
+                //     this.setState((state) => {
+                //         return { counter: state.counter + 1};
+                //     })
+                // }
+                
+                handleBtnClick = () => {
+                    this.props.onClickFunction(this.props.incrementValue); //passing arguments to onClickFunction 
+                }
+
+                render(){
+                    return(
+                        <button onClick={this.handleBtnClick}>
+                           +{this.props.incrementValue}
+                        </button>
+                    )
+                }
+            }
+            
+            /* Creating function component as Result */
+            const Result = (props) => {
+                return (
+                    <div>Counter is: {props.resultCounter}</div>
+                );
+            };
+
+            /* Creating parent component as App */
+            class App extends React.Component {
+                state = { counter: 0}
+                
+                incrementCounter = (incrementVal) => {
+                    // onClickFunction arguments value is received in incrementVal variable
+                    console.log("incrementCounter: ",incrementVal);
+                    this.setState((prevState) => {
+                        return { counter: prevState.counter + incrementVal };
+                    });
+                }
+
+                render(){
+                    return (
+                        <div>
+                            <Button incrementValue={1} onClickFunction={this.incrementCounter}/>&nbsp;
+                            <Button incrementValue={5} onClickFunction={this.incrementCounter}/>&nbsp;
+                            <Button incrementValue={10} onClickFunction={this.incrementCounter}/>&nbsp;
+                            <Button incrementValue={100} onClickFunction={this.incrementCounter}/>&nbsp;
+                            <hr/>
+                            <Result resultCounter={this.state.counter}/>
+                        </div>
+                    )
+                }
+            }
+            
+            function renderApp(){
+                const element = <App />;
+                const rootEle = document.getElementById('root');
+                ReactDOM.render(element, rootEle);
+            }
+            renderApp();
+        </script>
+</body>
+
+</html>

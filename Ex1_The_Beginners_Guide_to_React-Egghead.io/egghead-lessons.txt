@@ -1,0 +1,5 @@
+All lessons:
+https://egghead.io/lessons
+
+The Beginner's Guide to React:
+https://egghead.io/courses/the-beginner-s-guide-to-react

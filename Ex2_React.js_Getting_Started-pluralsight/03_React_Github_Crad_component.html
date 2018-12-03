@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React Basics</title>
+    <style>
+        .main{
+            border: 1px solid;
+        }
+
+        #root{
+            margin: 1em;
+        }
+        </style>
+</head>
+
+<body>
+    <div>
+        <h2>React Basics</h2>
+        <p> React uses JSX. JSX is a syntax extension to JavaScript. JSX produces React “elements”.</p>
+        <p> Writing your first react component </p>
+    </div>
+    <hr>
+    <div>
+        <h2>Component state with React</h2>
+    </div>
+    <hr>
+    <div class="main">
+        <div id="root"></div>
+    </div>
+
+    <script src="https://unpkg.com/react@16.0.0/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+    <script src="https://unpkg.com/axios@0.18.0/dist/axios.js"></script>
+
+
+    <script type="text/babel">
+            
+            const Card = (props) => {
+                return (
+                    <div style={{margin:'1em'}}>
+                        <img style={{width:75, float:'left'}} width="75" src={props.avatar_url} alt=""/>
+                        <div style={{display:'inline-block', marginLeft:10, float:'left'}}>
+                            <div style={{fontSize: '1.25em', fonrWeight: 'bold'}}>{props.name}</div>
+                            <div>{props.company}</div>
+                        </div>
+                        <div style={{clear:'both'}}></div>
+                    </div>
+                )
+            }
+            
+            let data =[
+                
+            ]
+
+            const CardList = (props)=> {
+                return (
+                    <div>
+                        {props.cards.map( card => <Card {...card}/> )}
+                    </div>
+                )
+            }
+
+
+            class Form extends React.Component {
+
+                state = { username: ''}
+
+                handleSubmit = (event) => {
+                    event.preventDefault();
+                    console.log("Event: ",event.nativeEvent);
+                    console.log("Username: ",this.state.username);
+
+                    axios.get(`https://api.github.com/users/${this.state.username}`)
+                        .then((response) => {
+                            //console.log(response);
+                            this.props.onSubmitClk(response.data);
+                            this.setState( {username:''} );
+                        },(error) => {
+                            this.setState( {username:''} );
+                            console.log("Error: ",error);
+                        });
+                }
+
+                render() {
+                    return (
+                        <form onSubmit={this.handleSubmit}>
+                            <input 
+                                type="text" 
+                                placeholder="Github Username"
+                                value = {this.state.username}
+                                onChange={(event) => { this.setState({ username: event.target.value}) }}
+                                />
+                            <button>Add card</button>
+                        </form>
+                    )
+                }
+            }
+
+            class App extends React.Component {
+                state = {
+                    cards: [
+                        {
+                            name: "Paul O'Shannessy",
+                            avatar_url: "https://avatars.githubusercontent.com/u/8445?v=3",
+                            company: "Facebook"
+                        },
+                        {
+                            name: "Ben Alpert",
+                            avatar_url: "https://avatars.githubusercontent.com/u/6820?v=3",
+                            company: "Facebook"
+                        }
+                    ]
+                };
+
+                getCardInfo = (cardInfo) => {
+                    console.log("cardInfo: ",cardInfo);
+                    this.setState((prevState) => {
+                        return { cards: prevState.cards.concat(cardInfo) }
+                    }, () => {
+                        console.log("after concat: ",this.state.cards);
+                    });
+                }
+
+                render(){
+                    return (
+                        <div>
+                            <Form onSubmitClk={this.getCardInfo} />
+                            <CardList cards={this.state.cards}/>
+                        </div>
+                    )
+                }
+            }
+
+            function renderApp(){
+                const element = <App />;
+                const rootEle = document.getElementById('root');
+                ReactDOM.render(element, rootEle);
+            }
+            renderApp();
+        </script>
+</body>
+
+</html>

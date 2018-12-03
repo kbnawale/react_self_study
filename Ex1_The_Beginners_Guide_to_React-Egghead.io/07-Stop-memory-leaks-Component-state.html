@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>React Basics</title>
+        <style>
+            .main{
+                border: 1px solid;
+            }
+
+            .container{
+                color: blue;
+                font-size: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <h2>React Basics</h2>
+            <p>React uses JSX. JSX is a syntax extension to JavaScript. JSX produces React “elements”.</p>
+            <p>In html we use class attr and in jsx we use className.</p>
+        </div>
+        <hr>
+        <div>
+            <h2>Component state with React</h2>
+        </div>
+        <hr>
+        <div class="main">
+            <div id="root"></div>
+        </div>
+
+        <script src="https://unpkg.com/react@16.0.0/umd/react.production.min.js"></script>
+        <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.production.min.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+        
+        
+        <script type="text/babel">
+            /* Creating component as StopWatch */
+            class StopWatch extends React.Component {
+                
+                state = { lapse:0, running: false };
+                
+                handleRunClick = () => {
+                    console.log("handleRunClick called");
+                    this.setState((state, props) => {
+                        if(state.running){
+                            clearInterval(this.timer);
+                        }else{
+                            const startTime = Date.now() - this.state.lapse;
+                            this.timer = setInterval(()=>{
+                                this.setState( { lapse: Date.now() - startTime },()=>{
+                                    console.log(this.state.lapse);
+                                } );
+                            });
+                        }
+                        return {running: !state.running}
+                    });
+                }
+
+                handleClearClick = () => {
+                    console.log("handleRunClick called");
+                    clearInterval(this.timer);
+                    this.setState( { lapse: 0, running: false } );
+                }
+                
+                componentWillUnmount(){
+                    console.log("componentWillUnmount");
+                    clearInterval(this.timer);
+                }
+
+                render() {
+                    //console.log("this: ",this);
+
+                    const {lapse, running} = this.state;
+
+                    const btnStyles = {
+                        border: '1px solid #ccc',
+                        background: '#fff',
+                        fontSize: '2em',
+                        cursor: 'pointer',
+                        padding: 15,
+                        margin: 5,
+                        width: 200
+                    }
+
+                    return (
+                        <div>
+                            <label style={{fontSize: '5em', display: 'block' }}>{lapse}ms</label>
+                            <button style={btnStyles} onClick={this.handleRunClick}> { running? 'Stop' : 'Start' }</button>
+                            <button style={btnStyles} onClick={this.handleClearClick}>Clear</button>
+                        </div>
+                        )
+                }
+            }
+            
+            class App extends React.Component {
+
+                state = { showStopWatch: true }
+                
+                onCBClick = () => {
+                    this.setState((state,props) => {
+                        return {showStopWatch: !state.showStopWatch}
+                    })
+                }
+
+                render () {
+                    const {showStopWatch} = this.state;
+
+                    return (
+                        <div>
+                            <label>
+                                Show Stop Watch{' '}
+                                <input 
+                                    type="checkbox"
+                                    checked={ showStopWatch }
+                                    onChange = { this.onCBClick }
+                                    />
+                            </label>
+                            <hr/>
+                            <div>
+                                {showStopWatch ? <StopWatch /> : null}
+                            </div>
+                        </div>
+                    )
+                }
+            }
+            
+            function renderApp(){
+                const element = <App />;
+                const rootEle = document.getElementById('root');
+                ReactDOM.render(element, rootEle);
+            }
+            renderApp();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>React Basics</title>
+        <style>
+            .main{
+                border: 1px solid;
+            }
+
+            .container{
+                color: blue;
+                font-size: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <h2>React Basics</h2>
+            <p>React uses JSX. JSX is a syntax extension to JavaScript. JSX produces React “elements”.</p>
+            <p>In html we use class attr and in jsx we use className.</p>
+        </div>
+        <hr>
+        <div class="main">
+            <div id="root"></div>
+        </div>
+        <script src="https://unpkg.com/react@16.0.0/umd/react.production.min.js"></script>
+        <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.production.min.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+        <script type="text/babel">
+            /* Creating component as Message */
+
+            const rootEle = document.getElementById('root');
+            const Message = ({msg}) => {
+                return (
+                    <div className="container">
+                        { msg ? <div>{msg}</div> : <div>No message</div> }
+                    </div>
+                );
+            };
+            //const element = <div className={cssClass}>{textContent1}</div>;
+            const element = (
+                <Message msg={'Hello new message'}/>
+            );
+            ReactDOM.render(element,rootEle);
+
+        </script>
+    </body>
+</html>

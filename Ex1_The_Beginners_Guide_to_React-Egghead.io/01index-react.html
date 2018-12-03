@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>React Basics</title>
+        <style>
+            .main {
+                border: 1px solid;
+            }
+        
+            .container {
+                color: blue;
+                font-size: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <h2>React Basics</h2>
+        </div>
+        <hr>
+        <div class="main">
+            <div id="root"></div>
+        </div>
+        <script src="https://unpkg.com/react@16.0.0/umd/react.production.min.js"></script>
+        <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.production.min.js"></script>
+        <script>
+            /* Vanilla JS */
+            /*
+            const rootEle = document.getElementById('root');
+            const element = document.createElement('div');
+            element.textContent = 'Hello World';
+            element.className = 'container';
+            rootEle.appendChild(element);
+            */
+            
+            /* Using React JS */
+            const rootEle = document.getElementById('root');
+            const element = React.createElement('div', {className: 'container'}, 'Hello World - React');
+            console.log(element);
+            ReactDOM.render(element, rootEle);
+
+        </script>
+    </body>
+</html>
